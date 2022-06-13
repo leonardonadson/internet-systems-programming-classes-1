@@ -24,8 +24,8 @@ namespace aula.Controllers
         public ActionResult Index()
         {
             return View(
-                fabricantes
-                //context.Fabricantes.OrderBy(c => c.Nome)
+                //fabricantes
+                context.Fabricantes.OrderBy(c => c.Nome)
                 );
         }
 
@@ -42,9 +42,9 @@ namespace aula.Controllers
         public ActionResult Create(Fabricante fabricante)
         {
             fabricantes.Add(fabricante);
-            fabricante.FabricanteId = fabricantes.Select(m => m.FabricanteId).Max() + 1;
-            //context.Fabricantes.Add(fabricante);
-            //context.SaveChanges();
+            //fabricante.FabricanteId = fabricantes.Select(m => m.FabricanteId).Max() + 1;
+            context.Fabricantes.Add(fabricante);
+            context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -56,9 +56,9 @@ namespace aula.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
+            //Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
  
-            //Fabricante fabricante = context.Fabricantes.Find(id);
+            Fabricante fabricante = context.Fabricantes.Find(id);
 
             if (fabricante == null)
             {
@@ -74,11 +74,11 @@ namespace aula.Controllers
         {
             if (ModelState.IsValid)
             {
-                //context.Entry(fabricante).State = EntityState.Modified;
-                //context.SaveChanges();
-                fabricantes.Remove(
-                    fabricantes.Where(c => c.FabricanteId == fabricante.FabricanteId).First());
-                fabricantes.Add(fabricante);
+                context.Entry(fabricante).State = EntityState.Modified;
+                context.SaveChanges();
+                //fabricantes.Remove(
+                    //fabricantes.Where(c => c.FabricanteId == fabricante.FabricanteId).First());
+                //fabricantes.Add(fabricante);
                 return RedirectToAction("Index");
             }
             return View(fabricante);
@@ -91,8 +91,8 @@ namespace aula.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Fabricante fabricante = context.Fabricantes.Find(id);
-            Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
+            Fabricante fabricante = context.Fabricantes.Find(id);
+            //Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
             if (fabricante == null)
             {
                 return HttpNotFound();
@@ -107,8 +107,8 @@ namespace aula.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Fabricante fabricante = context.Fabricantes.Find(id);
-            Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
+            Fabricante fabricante = context.Fabricantes.Find(id);
+            //Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
             if (fabricante == null)
             {
                 return HttpNotFound();
@@ -121,11 +121,11 @@ namespace aula.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long id)
         {
-            //Fabricante fabricante = context.Fabricantes.Find(id);
-            Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
-            //context.Fabricantes.Remove(fabricante);
-            fabricantes.Remove(fabricante);
-            //context.SaveChanges();
+            Fabricante fabricante = context.Fabricantes.Find(id);
+            //Fabricante fabricante = fabricantes.Where(m => m.FabricanteId == id).First();
+            context.Fabricantes.Remove(fabricante);
+            //fabricantes.Remove(fabricante);
+            context.SaveChanges();
             return RedirectToAction("Index");
         }
     }
