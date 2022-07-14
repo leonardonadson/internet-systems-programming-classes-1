@@ -126,6 +126,7 @@ namespace aula.Controllers
             context.Fabricantes.Remove(fabricante);
             //fabricantes.Remove(fabricante);
             context.SaveChanges();
+            TempData["Message"] = "Fabricante " + fabricante.Nome.ToUpper() + " foi removido";
             return RedirectToAction("Index");
         }
     }
